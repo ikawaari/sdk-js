@@ -5,8 +5,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/daoudabeye/IkawaariPaaS.git",
-    "directory": "apps/packages/sdk-js"
+    "url": "https://github.com/ikawaari/sdk-js.git"
   },
   "files": [
     "dist"

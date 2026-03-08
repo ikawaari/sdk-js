@@ -1,0 +1,40 @@
+name: SDK Docs Sync
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  sync-sdk-release-manifest:
+    if: ${{ startsWith(github.event.release.tag_name, 'sdk-js/v') && secrets.SDK_DOCS_SYNC_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout docs-site repository
+        uses: actions/checkout@v4
+        with:
+          repository: ikawaari/docs-site
+          token: ${{ secrets.SDK_DOCS_SYNC_TOKEN }}
+          path: docs-site
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Update SDK release manifest
+        working-directory: docs-site
+        run: node scripts/update-sdk-release-manifest.mjs javascript ${{ github.event.release.tag_name }} ${{ github.event.release.html_url }}
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.SDK_DOCS_SYNC_TOKEN }}
+          path: docs-site
+          commit-message: docs(sdk): sync javascript release ${{ github.event.release.tag_name }}
+          title: docs(sdk): sync javascript release ${{ github.event.release.tag_name }}
+          body: Automatic documentation synchronization after SDK release publication.
+          branch: automation/sdk-release-sync-javascript-${{ github.run_id }}
+          delete-branch: true
