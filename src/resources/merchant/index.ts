@@ -1,0 +1,8 @@
+export { MerchantCustomersResource } from './customers.js'
+export { MerchantDashboardResource } from './dashboard.js'
+export { MerchantInvoicesResource } from './invoices.js'
+export { MerchantPaymentsResource } from './payments.js'
+export { MerchantRefundsResource } from './refunds.js'
+export { MerchantTransactionsResource } from './transactions.js'
+export { MerchantWalletsResource } from './wallets.js'
+export { MerchantNamespace } from './namespace.js'

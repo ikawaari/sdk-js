@@ -1,0 +1,40 @@
+{
+  "name": "@ikawaari/sdk",
+  "version": "0.1.0",
+  "description": "Official JavaScript and TypeScript SDK for the Ikawaari developer platform.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daoudabeye/IkawaariPaaS.git",
+    "directory": "apps/packages/sdk-js"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "node ./node_modules/typescript/bin/tsc -p tsconfig.json",
+    "lint": "node scripts/lint.mjs",
+    "type-check": "node ./node_modules/typescript/bin/tsc --noEmit",
+    "test": "npm run build && node --test",
+    "write:release-manifest": "node scripts/write-release-manifest.mjs",
+    "validate:package": "npm pack --dry-run",
+    "validate:release-tag": "node scripts/validate-release-tag.mjs",
+    "ci": "npm run lint && npm run type-check && npm run test && npm run write:release-manifest && npm run validate:package",
+    "prepack": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
