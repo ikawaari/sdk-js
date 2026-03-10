@@ -24,25 +24,27 @@ function toWebhookPayload(params: CreateWebhookEndpointParams | UpdateWebhookEnd
   }
 }
 
+const WEBHOOK_ENDPOINTS_PATH = '/api/v1/webhook-endpoints'
+
 export class WebhooksResource extends BaseResource {
   async createEndpoint(params: CreateWebhookEndpointParams, options?: RequestOptions): Promise<CreateWebhookEndpointResponse> {
-    return this.post<CreateWebhookEndpointResponse>('/webhook_endpoints', toWebhookPayload(params), options)
+    return this.post<CreateWebhookEndpointResponse>(WEBHOOK_ENDPOINTS_PATH, toWebhookPayload(params), options)
   }
 
   async retrieveEndpoint(id: string, options?: RequestOptions): Promise<WebhookEndpoint> {
-    return this.get<WebhookEndpoint>(`/webhook_endpoints/${id}`, undefined, options)
+    return this.get<WebhookEndpoint>(`${WEBHOOK_ENDPOINTS_PATH}/${id}`, undefined, options)
   }
 
   async listEndpoints(options?: RequestOptions): Promise<WebhookEndpoint[]> {
-    return this.get<WebhookEndpoint[]>('/webhook_endpoints', undefined, options)
+    return this.get<WebhookEndpoint[]>(WEBHOOK_ENDPOINTS_PATH, undefined, options)
   }
 
   async updateEndpoint(id: string, params: UpdateWebhookEndpointParams, options?: RequestOptions): Promise<WebhookEndpoint> {
-    return this.post<WebhookEndpoint>(`/webhook_endpoints/${id}`, toWebhookPayload(params), options)
+    return this.post<WebhookEndpoint>(`${WEBHOOK_ENDPOINTS_PATH}/${id}`, toWebhookPayload(params), options)
   }
 
   async rotateSecret(id: string, options?: RequestOptions): Promise<RotateWebhookSecretResponse> {
-    return this.post<RotateWebhookSecretResponse>(`/webhook_endpoints/${id}/rotate_secret`, undefined, options)
+    return this.post<RotateWebhookSecretResponse>(`${WEBHOOK_ENDPOINTS_PATH}/${id}/rotate_secret`, undefined, options)
   }
 
   verifySignature(payload: string | Buffer, signatureHeader: string, secret: string, toleranceSeconds = 300): boolean {
